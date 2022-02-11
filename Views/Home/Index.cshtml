@@ -1,0 +1,35 @@
+﻿@using WebAppForDiplom.Models
+@model List<Order>
+@{
+    ViewData["Title"] = "HomePage";
+    Layout = "_Layout";
+}
+<html>
+    <body>
+    <div class= "panel panel-primary">
+        <a href="~/Preparation/Index">Оставить заявку</a>
+    <div class = "panel-heading">Список заявок</div>
+        <table class = "table table-striped">
+
+            @foreach (Order order in Model)
+            {
+                <tr>
+                    <th>@order.Id</th>
+                    <th>@order.Name</th>
+                </tr>
+            }
+        </table>
+</div>
+<div>
+    <h1>Отправить заявку</h1>
+        <form method="post" action="~/Home/SendOrder">
+            <label>Номер заявки</label>
+            <input type="text" name="Name" /><br />
+            <label>Имя сотрудника</label>
+            <input type="text" name="Name" /><br />
+            <input type="submit" value="Отправить" />
+        </form>
+</div>
+</body>
+</html>
+

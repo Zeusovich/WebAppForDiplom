@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Feedback Page";
+    Layout = "_Layout";
+}
+<html>
+<body>
+    <div>
+        <h1>Оцените работу:</h1>
+        <form method="post" action="~/Preparation/SendFeedback">
+            <label>Оцените работу сотрудника (0-5)</label>
+            <input type="number" name="НАЗВАНИЕ ПОЛЯ В БД!!!!!!" /><br />
+            <label>С какой вероятностью вы порекомендуете нас другим людям? (0-5)</label>
+            <input type="number" name="НАЗВАНИЕ ПОЛЯ В БД!!!!!" /><br />
+            <input type="submit" value="Отправить" />
+        </form>
+    </div>
+</body>
+</html>
+       

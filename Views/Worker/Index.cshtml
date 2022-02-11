@@ -1,0 +1,33 @@
+﻿@using WebAppForDiplom.Models
+@model List<Order>
+@{
+    ViewData["Title"] = "WorkerPage";
+    Layout = "_Layout";
+}
+<html>
+<body> 
+<div>
+    <div class = "panel-heading">Мои заявки(только для этого имени)</div>
+    <label>Сделать переходы в зависимости от статуса заявки</label>
+        <table class = "table table-striped">
+            <a href="~/Worker/MyReports">Мои отчеты</a>
+            @foreach (Order order in Model)
+            {
+                <tr>
+                    <form method="post" action="~/Worker/TakeOrder">
+                    <th>@order.Id</th>
+                    <th>@order.Name</th>
+                    <th><input type="submit" value="Приступить" /></th>>
+                        </form>
+                        <th>
+                        <form method="post" action="~/Worker/MakeReport">
+                            <input type="submit" value="Готово" />
+                            </form>
+                    </th>
+                </tr>
+                
+            }
+        </table>
+</div>
+</body>
+</html>
