@@ -4,8 +4,10 @@
     ViewData["Title"] = "HomePage";
     Layout = "_Layout";
 }
-<html>
+<html>    
     <body>
+        <p>IsAuthenticated:@ViewBag.IsAuthenticated</p>  <p>Name:@ViewBag.Name</p>
+        <a asp-controller="Account" asp-action="Logout">Log out</a>
     <div class= "panel panel-primary">
         <a href="~/Preparation/Index">Оставить заявку</a>
     <div class = "panel-heading">Список заявок</div>

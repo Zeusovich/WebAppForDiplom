@@ -1,21 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Security.Claims;
 using WebAppForDiplom.Context;
 using WebAppForDiplom.Data;
 using WebAppForDiplom.Interfaces;
-using WebAppForDiplom.Models;
 
 namespace WebAppForDiplom
 {
@@ -35,34 +27,42 @@ namespace WebAppForDiplom
 
             services.AddControllersWithViews();
 
-            /*services.AddControllersWithViews(mvcOtions =>
+            services.AddAuthentication("Cookie").AddCookie("Cookie");
+
+            var administrator = "Administrator";
+            var workerRole = "Worker";
+            var bossRole = "Boss";
+            var guestRole = "Guest";
+
+
+
+            services.AddAuthorization(options =>
             {
-                mvcOtions.EnableEndpointRouting = false;
-            });*/
 
-            //services.AddMvc();
-/*
-            services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<DataContext>()
-                .AddDefaultTokenProviders();
+                options.AddPolicy(administrator, builder =>
+                {
+                    builder.RequireClaim(ClaimTypes.Role, administrator);
+                });
 
-            services.Configure<IdentityOptions>(options =>
-            {
-                options.Password.RequiredLength = 6;
+                options.AddPolicy(workerRole, builder =>
+                {
+                    builder.RequireAssertion(x => x.User.HasClaim(ClaimTypes.Role, administrator) 
+                    || x.User.HasClaim(ClaimTypes.Role, workerRole));
+                });
 
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
-                options.Lockout.MaxFailedAccessAttempts = 10;
-                options.Lockout.AllowedForNewUsers = true;
-            });
+                options.AddPolicy(bossRole, builder =>
+                {
+                    builder.RequireAssertion(x => x.User.HasClaim(ClaimTypes.Role, administrator) 
+                    || x.User.HasClaim(ClaimTypes.Role, bossRole));
+                });
 
-            services.ConfigureApplicationCookie(options =>
-            {
-                options.Cookie.HttpOnly = true;
-                options.Cookie.Expiration = TimeSpan.FromMinutes(30);
-                options.LoginPath = "/Account/Login";
-                options.LogoutPath = "/Account/Logout";
-                options.SlidingExpiration = true;
-            });*/
+                options.AddPolicy(guestRole, builder =>
+                {
+                    builder.RequireAssertion(x=>x.User.HasClaim(ClaimTypes.Role,administrator)
+                    ||x.User.HasClaim(ClaimTypes.Role,guestRole));
+                    });
+
+            });     
 
         }
 
@@ -75,8 +75,6 @@ namespace WebAppForDiplom
 
             app.UseRouting();
 
-            //app.UseHttpsRedirection();
-
             app.UseStaticFiles();
 
             app.UseAuthentication();
@@ -87,13 +85,6 @@ namespace WebAppForDiplom
             {
                 endpoints.MapDefaultControllerRoute();
             });
-
-            /*app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}"); ;
-            });*/
         }
     }
 }

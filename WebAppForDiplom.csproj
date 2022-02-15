@@ -5,11 +5,32 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\**" />
+    <Compile Remove="ViewComponent\**" />
+    <Compile Remove="Views\Shared\Components\**" />
+    <Content Remove="Areas\**" />
+    <Content Remove="ViewComponent\**" />
+    <Content Remove="Views\Shared\Components\**" />
+    <EmbeddedResource Remove="Areas\**" />
+    <EmbeddedResource Remove="ViewComponent\**" />
+    <EmbeddedResource Remove="Views\Shared\Components\**" />
+    <None Remove="Areas\**" />
+    <None Remove="ViewComponent\**" />
+    <None Remove="Views\Shared\Components\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Models\UserRegistration.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Models\LoginViewModel.cshtml" />
     <Content Remove="Models\OrderValue.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.21" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.21" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.21" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.21">
       <PrivateAssets>all</PrivateAssets>
@@ -17,11 +38,6 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Views\Shared\Components\" />
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 </Project>

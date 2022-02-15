@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using WebAppForDiplom.Interfaces;
 
 namespace WebAppForDiplom.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly IOrderData orderData;
@@ -13,10 +15,15 @@ namespace WebAppForDiplom.Controllers
         }
         public IActionResult Index()
         {
+            ViewBag.Name = User.Identity.Name;
+            ViewBag.IsAuthenticated = User.Identity.IsAuthenticated;
             return View(orderData.GetOrders());
         }
 
+
+        
         [HttpPost]
+        [Authorize(Policy = "Boss")]
         public IActionResult SendOrder()
         {
             return Redirect("~/Home/Index");

@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using WebAppForDiplom.Models;
 
@@ -7,86 +10,37 @@ namespace WebAppForDiplom.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-
-        public AccountController(UserManager<User> userManager,SignInManager<User> signInManager)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-        }
-
-        [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login(string returnUrl)
         {
-            return View(new UserLogin()
-            {
-                ReturnUrl = returnUrl
-            }); 
+            return View();
         }
 
-        [HttpPost,ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(UserLogin model)
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> LoginAsync(LoginViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                var loginResult = await _signInManager.PasswordSignInAsync(model.UserName,
-                    model.Password,
-                    false,
-                    lockoutOnFailure: false);
-
-                if (loginResult.Succeeded)
-                {
-                    if(Url.IsLocalUrl(model.ReturnUrl))
-                    {
-                        return Redirect(model.ReturnUrl);
-                    }
-
-                    return RedirectToAction("Index", "Home");
-                }
+                return View(model);
             }
 
-            ModelState.AddModelError(string.Empty, "Пользователь не найден");
-            return View(model);
-        }
-
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View(new UserRegistration());
-        }
-
-        [HttpPost,ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(UserRegistration model)
-        {
-            if(ModelState.IsValid)
+            var claims = new List<Claim>
             {
-                var user = new User { UserName = model.UserName };
-                var createResult = await _userManager.CreateAsync(user,model.Password);
-
-                if(createResult.Succeeded)
-                {
-                    await _signInManager.SignInAsync(user,false);
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    foreach(var identityError in createResult.Errors)
-                    {
-                        ModelState.AddModelError(string.Empty,identityError.Description);   
-                    }
-                }
-            }
-            return View(model);
-
-
+                new Claim(ClaimTypes.Name,model.UserName),
+                new Claim(ClaimTypes.Role, "Administrator")
+            };
+            var claimIdentity = new ClaimsIdentity(claims,"Cookie");
+            var claimPrincipal = new ClaimsPrincipal(claimIdentity);
+            await HttpContext.SignInAsync("Cookie", claimPrincipal);
+            return Redirect(model.ReturnUrl);
         }
 
-        [HttpPost,ValidateAntiForgeryToken]
-        public async Task<IActionResult> Logout()
+        
+        public  IActionResult Logout()
         {
-            await _signInManager.SignOutAsync();
-            return RedirectToAction("Index", "Home");
+            HttpContext.SignOutAsync("Cookie");
+            return Redirect("/Home/Index");
         }
     }
 }

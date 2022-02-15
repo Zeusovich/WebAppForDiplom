@@ -2,12 +2,15 @@
 
 namespace WebAppForDiplom.Models
 {
-    public class UserLogin
+    public class LoginViewModel
     {
-        [Required,MaxLength(256)]
+        [Required]
         public string UserName { get; set;}
-        [Required, DataType(DataType.Password)]
+
+        [Required]
         public string Password { get; set;}
+
+        [Required]
         public string ReturnUrl { get; set;}
     }
 }
