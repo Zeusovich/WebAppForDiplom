@@ -3,9 +3,7 @@ using System;
 
 namespace WebAppForDiplom.Models
 {
-    public class User : IdentityUser<Guid>
+    public class UserRole : IdentityRole<Guid>
     {
-        public string FirstName { get; set; }
-       
     }
 }

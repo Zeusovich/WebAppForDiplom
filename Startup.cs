@@ -8,6 +8,7 @@ using System.Security.Claims;
 using WebAppForDiplom.Context;
 using WebAppForDiplom.Data;
 using WebAppForDiplom.Interfaces;
+using WebAppForDiplom.Models;
 
 namespace WebAppForDiplom
 {
@@ -22,19 +23,30 @@ namespace WebAppForDiplom
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+             })
+                .AddIdentity<User, UserRole>(config =>
+                {
+                    config.Password.RequireLowercase = false;
+                    config.Password.RequiredLength = 6;
+                    config.Password.RequireDigit = false;
+                    config.Password.RequireNonAlphanumeric = false;
+                    config.Password.RequireUppercase = false;
+                })
+             .AddEntityFrameworkStores<DataContext>();
+             
+
             services.AddTransient<IOrderData, OrdersService>();
 
             services.AddControllersWithViews();
 
-            services.AddAuthentication("Cookie").AddCookie("Cookie");
+            /*services.AddAuthentication("Cookie").AddCookie("Cookie");*/
 
             var administrator = "Administrator";
             var workerRole = "Worker";
             var bossRole = "Boss";
             var guestRole = "Guest";
-
-
 
             services.AddAuthorization(options =>
             {

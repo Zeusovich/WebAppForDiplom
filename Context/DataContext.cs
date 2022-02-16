@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Protocols;
+using System;
 using System.Configuration;
 using WebAppForDiplom.Models;
 
 namespace WebAppForDiplom.Context
 {
-    public class DataContext : IdentityDbContext<User>
+    public class DataContext : IdentityDbContext<User, UserRole, Guid>
     {
         public DataContext()
         {
@@ -21,7 +22,6 @@ namespace WebAppForDiplom.Context
         public DbSet<Order> Orders { get; set; }
         public DbSet<Guest> Guest { get; set; } = null!;
         public DbSet<OrderValue> OrderValue { get; set; }
-        //public DbSet<User> Users { get; set; }
 
     }
 }

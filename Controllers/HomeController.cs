@@ -23,7 +23,7 @@ namespace WebAppForDiplom.Controllers
 
         
         [HttpPost]
-        [Authorize(Policy = "Boss")]
+        [Authorize(Policy = "Administrator")]
         public IActionResult SendOrder()
         {
             return Redirect("~/Home/Index");
