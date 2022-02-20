@@ -6,15 +6,23 @@
 
   <ItemGroup>
     <Compile Remove="Areas\**" />
+    <Compile Remove="RoleInitializer\**" />
+    <Compile Remove="Services\**" />
     <Compile Remove="ViewComponent\**" />
     <Compile Remove="Views\Shared\Components\**" />
     <Content Remove="Areas\**" />
+    <Content Remove="RoleInitializer\**" />
+    <Content Remove="Services\**" />
     <Content Remove="ViewComponent\**" />
     <Content Remove="Views\Shared\Components\**" />
     <EmbeddedResource Remove="Areas\**" />
+    <EmbeddedResource Remove="RoleInitializer\**" />
+    <EmbeddedResource Remove="Services\**" />
     <EmbeddedResource Remove="ViewComponent\**" />
     <EmbeddedResource Remove="Views\Shared\Components\**" />
     <None Remove="Areas\**" />
+    <None Remove="RoleInitializer\**" />
+    <None Remove="Services\**" />
     <None Remove="ViewComponent\**" />
     <None Remove="Views\Shared\Components\**" />
   </ItemGroup>

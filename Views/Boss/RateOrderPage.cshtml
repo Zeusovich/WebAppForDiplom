@@ -1,0 +1,12 @@
+﻿@model Order
+<a href="~/Boss/Index">Назад</a>
+<form method="post" action="~/Boss/RateOrder">
+    <label>Номер заявки</label>
+        <input asp-for="Id" /><br /> 
+        <label>Оценка быстроты принятия</label>
+        <input type="number"  max="5" min="1" step="1" asp-for="ValueBeginOfWork" /><br /> 
+        <label>Оценка быстроты решения</label>
+        <input type="number"  max="5" min="1" step="1" asp-for="ValueEndOfWork" /><br /> 
+        <input type="submit" value="Оценить" />
+    </form>
+        

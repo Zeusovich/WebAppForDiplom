@@ -1,0 +1,37 @@
+﻿@model List<Order>
+@{
+    ViewData["Title"] = "GuestOrdersPage";
+}
+<html>
+    <body>
+        <a href="~/Guest/Index">Назад</a>
+        <h1> Мои заявки:</h1>
+         <div class = "panel-heading">Список заявок</div>
+        <table class = "table table-striped">
+            <tr>
+                    <th>Номер заявки</th>
+                    <th>Имя отправителя</th>
+                    <th>Описание</th>
+                    <th>Статус</th>
+                    <th>Время отправки</th>
+                </tr>
+            @foreach (Order order in Model)
+            {
+                <tr>
+                    <th>@order.Id</th>
+                    <th>@order.Name</th>
+                    <th>@order.DescriptionOfProblem</th>
+                    <th>@order.Status</th>
+                    <th>@order.ResponceTime</th>
+                
+                <form method="post" action="~/Guest/Feedback">
+                    @if ((order.Status == "Готово")||(order.Status == "Прошло оценку начальником"))
+                    {
+                       <th><input type="submit" value="Оценить"></th>
+                    }
+                    </form>
+                   </tr>
+            }
+        </table>
+    </body>
+</html>

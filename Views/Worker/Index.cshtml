@@ -2,28 +2,46 @@
 @model List<Order>
 @{
     ViewData["Title"] = "WorkerPage";
-    Layout = "_Layout";
 }
 <html>
 <body> 
 <div>
-    <div class = "panel-heading">Мои заявки(только для этого имени)</div>
-    <label>Сделать переходы в зависимости от статуса заявки</label>
+    <a href="~/Worker/MyReports">Мои отчеты</a> <br />
+    <a href="~/Home/Index">На главную</a>
+    <div class = "panel-heading"><h1>Мои заявки:</h1></div>
         <table class = "table table-striped">
-            <a href="~/Worker/MyReports">Мои отчеты</a>
+            
+            <tr>
+                <th>Номер заявки</th>
+                <th>Имя отправителя</th>
+                <th>Имя сотрудника</th>
+                <th>Описание проблемы</th>
+                <th>Время отправки</th>
+                <th>Статус</th>
+                <th>Начало работы</th>
+            </tr>
             @foreach (Order order in Model)
             {
                 <tr>
                     <form method="post" action="~/Worker/TakeOrder">
                     <th>@order.Id</th>
                     <th>@order.Name</th>
-                    <th><input type="submit" value="Приступить" /></th>>
-                        </form>
-                        <th>
-                        <form method="post" action="~/Worker/MakeReport">
-                            <input type="submit" value="Готово" />
-                            </form>
-                    </th>
+                    <th>@order.WorkerName</th>
+                    <th>@order.DescriptionOfProblem</th>
+                    <th>@order.ResponceTime</th>
+                    <th>@order.Status</th>
+                    @if(@order.Status == "В ожидании")
+                    {
+                    <th><input type="submit" value="Приступить" /></th>                        
+                    }
+                    </form>
+                    <form method="post" action="~/Worker/MakeReport">
+                    @if (order.Status == "В процессе")
+                    {
+                            <th>@order.BeginOfWork</th>
+                            <th><input type="submit" value="Готово" /></th>
+                    }
+                    </form>
                 </tr>
                 
             }

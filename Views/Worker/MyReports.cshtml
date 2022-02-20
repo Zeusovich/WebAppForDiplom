@@ -1,6 +1,31 @@
 ﻿@{
     ViewData["Title"] = "MyReportsPage";
-    Layout = "_Layout";
 }
-<label>Мои отчеты</label><br />
+<label>Готовые заявки</label>
 <a href="~/Worker/Index">Мои заявки</a>
+    <table class = "table table-striped">
+            <tr>
+                <th>Номер заявки</th>
+                <th>Имя отправителя</th>
+                <th>Имя сотрудника</th>
+                <th>Описание проблемы</th>
+                <th>Время отправки</th>
+                <th>Статус</th>
+                <th>Начало работы</th>
+                <th>Конец работы</th>
+            </tr>
+            @foreach (Order order in Model)
+            {
+                <tr>
+                    <th>@order.Id</th>
+                    <th>@order.Name</th>
+                    <th>@order.WorkerName</th>
+                    <th>@order.DescriptionOfProblem</th>
+                    <th>@order.ResponceTime</th>
+                    <th>@order.Status</th>
+                    <th>@order.BeginOfWork</th>
+                    <th>@order.EndOfWork</th>                    
+                </tr>
+                
+            }
+        </table>

@@ -120,21 +120,6 @@ namespace WebAppForDiplom.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("WebAppForDiplom.Models.Guest", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("GuestName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Guest");
-                });
-
             modelBuilder.Entity("WebAppForDiplom.Models.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -151,7 +136,7 @@ namespace WebAppForDiplom.Migrations
                     b.Property<DateTime>("EndOfWork")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("GuestId")
+                    b.Property<int>("Feedback")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -160,34 +145,20 @@ namespace WebAppForDiplom.Migrations
                     b.Property<int>("NumberOfOrder")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
+                    b.Property<string>("OrderStatement")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Surname")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("GuestId");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("WebAppForDiplom.Models.OrderValue", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Feedback")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("OrderId")
-                        .HasColumnType("int");
 
                     b.Property<int>("Recommend")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("ResponceTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("ValueBeginOfWork")
                         .HasColumnType("int");
@@ -195,11 +166,14 @@ namespace WebAppForDiplom.Migrations
                     b.Property<int>("ValueEndOfWork")
                         .HasColumnType("int");
 
+                    b.Property<string>("WorkerName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("OrderValue");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("WebAppForDiplom.Models.User", b =>
@@ -352,16 +326,9 @@ namespace WebAppForDiplom.Migrations
 
             modelBuilder.Entity("WebAppForDiplom.Models.Order", b =>
                 {
-                    b.HasOne("WebAppForDiplom.Models.Guest", "Guest")
+                    b.HasOne("WebAppForDiplom.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("GuestId");
-                });
-
-            modelBuilder.Entity("WebAppForDiplom.Models.OrderValue", b =>
-                {
-                    b.HasOne("WebAppForDiplom.Models.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId");
+                        .HasForeignKey("UserId");
                 });
 #pragma warning restore 612, 618
         }

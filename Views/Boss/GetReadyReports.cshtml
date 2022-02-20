@@ -1,14 +1,45 @@
-﻿@*
-    СТРАНИЦА ГОТОВЫХ ОТЧЕТОВ(ВЫСТАВИТЬ ОЦЕНКИ)
-*@
+﻿@model IEnumerable<Order>
 @{
 }
 @{
     ViewData["Title"] = "ReadyReportsPage";
-    Layout = "_Layout";
 }
 <html>
     <body>
     <label>Страница готовых отчетов</label>
     </body>
+    <a href="~/Boss/Index">Назад</a>
+    <table class = "table table-striped">
+            <tr>
+                <th>Номер заявки</th>
+                <th>Имя отправителя</th>
+                <th>Имя сотрудника</th>
+                <th>Описание проблемы</th>
+                <th>Время отправки</th>
+                <th>Статус</th>
+                <th>Начало работы</th>
+                <th>Конец работы</th>
+            </tr>
+            @foreach (Order order in Model)
+            {
+                if ((order.Status=="Прошло оценку клиентом")||(order.Status=="Готово"))
+                {
+                    <tr>
+                            <th>@order.Id</th>
+                            <th>@order.Name</th>
+                            <th>@order.WorkerName</th>
+                            <th>@order.DescriptionOfProblem</th>
+                            <th>@order.ResponceTime</th>
+                            <th>@order.Status</th>
+                            <th>@order.BeginOfWork</th>
+                            <th>@order.EndOfWork</th>                    
+                    </tr>
+                }
+            }
+    </table>
+<div>
+    <form method="post" action="~/Boss/RateOrderPage">
+                <input type="submit" value="Оценить" />
+    </form>
+</div>
 </html>

@@ -2,34 +2,40 @@
 @model List<Order>
 @{
     ViewData["Title"] = "BossPage";
-    Layout = "_Layout";
 }
 <html>
+    <a href="~/Home/Index">На главную</a>
     <body>
     <div class= "panel panel-primary">
         <a href="~/Boss/GetReadyReports">Готовые отчеты</a>
         <a href="~/Boss/GetResults">Результаты</a>
     <div class = "panel-heading">Список заявок</div>
         <table class = "table table-striped">
-
+            <tr>
+                    <th>Номер заявки</th>
+                    <th>Имя отправителя</th>
+                    <th>Описание</th>
+                    <th>Статус</th>
+                    <th>Время отправки</th>
+                    <th>Имя сотрудника</th>
+                </tr>
             @foreach (Order order in Model)
             {
                 <tr>
                     <th>@order.Id</th>
                     <th>@order.Name</th>
+                    <th>@order.DescriptionOfProblem</th>
+                    <th>@order.Status</th>
+                    <th>@order.ResponceTime</th>
+                    <th>@order.WorkerName</th>                    
                 </tr>
             }
         </table>
 </div>
 <div>
-    <h1>Отправить заявку</h1>
-        <form method="post" action="~/Home/SendOrder">
-            <label>Номер заявки</label>
-            <input type="text" name="Name" /><br />
-            <label>Имя сотрудника</label>
-            <input type="text" name="Name" /><br />
-            <input type="submit" value="Отправить" />
-        </form>
+    <form method="post" action="~/Boss/WorkerForm">
+                <input type="submit" value="Отправить заявку" />
+    </form>
 </div>
 </body>
 </html>

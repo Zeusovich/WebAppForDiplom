@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Security.Claims;
+using WebAppForDiplom.BusinessLogic;
 using WebAppForDiplom.Context;
 using WebAppForDiplom.Data;
 using WebAppForDiplom.Interfaces;
@@ -38,6 +39,7 @@ namespace WebAppForDiplom
              
 
             services.AddTransient<IOrderData, OrdersService>();
+            services.AddTransient<OptimizationAlgorithm>();
 
             services.AddControllersWithViews();
 

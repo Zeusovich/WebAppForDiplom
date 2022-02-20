@@ -1,14 +1,36 @@
-﻿@*
-    ИТОГОВАЯ СТРАНИЦА С РЕЗУЛЬТАТАМИ
-*@
-@{
+﻿@model List<Order>
 }
 @{
     ViewData["Title"] = "ResultPage";
-    Layout = "_Layout";
 }
 <html>
     <body>
-    <label>ИТОГОВАЯ СТРАНИЦА С РЕЗУЛЬТАТАМИ</label>
+    <a href="~/Boss/Index">Назад</a>
+    <table class = "table table-striped">
+            <tr>
+                <th>Номер заявки</th>
+                <th>Имя сотрудника</th>
+                <th>Статус заявки</th>
+                <th>Оценка начала работы</th>
+                <th>Оценка конца работы</th>
+                <th>Отзыв клиента</th>   
+                <th>Вероятность рекоммендации</th> 
+                <th>Общая оценка работы</th>
+            </tr>
+            @foreach (Order order in Model)
+            {
+                <tr>
+                    <th>@order.Id</th>
+                    <th>@order.WorkerName</th>
+                    <th>@order.Status</th>
+                    <th>@order.ValueBeginOfWork</th>
+                    <th>@order.ValueEndOfWork</th>
+                    <th>@order.Feedback</th>
+                    <th>@order.Recommend</th>
+                    <th>@order.OrderStatement</th>
+                </tr>
+                
+            }
+        </table>
     </body>
 </html>

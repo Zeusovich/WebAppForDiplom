@@ -1,13 +1,14 @@
 ﻿@{
     ViewData["Title"] = "MakeReportPage";
-    Layout = "_Layout";
 }
-<title>Составление отчета</title>
+<title>Подтверждение готовности</title>
 <html>
     <body>
     <div>        
-        <label>Отчетик)</label>
+        <label>Подтвердите номер выполненной заявки:</label>
         <form method="post" action="~/Worker/SendReport">
+            <label>Номер заявки:</label>
+                <input type="number" name="id" /><br />
              <input type="submit" value="Готово" />
         </form>
     </div>

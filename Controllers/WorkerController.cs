@@ -13,16 +13,21 @@ namespace WebAppForDiplom.Controllers
         }
         public IActionResult Index()
         {
-            return View(orderData.GetOrders());
+            return View(orderData.GetOrdersForWorker(User.Identity.Name));
         }
         /// <summary>
         /// Обновляет статус заявки
         /// </summary>
-        /// <returns></returns>
-        [HttpPost]
+        /// <returns></returns>     
         public IActionResult TakeOrder()
         {
-            return Redirect("~/Worker/Index");
+            return View();
+        }
+        [HttpPost]
+        public IActionResult TakeOrderByNumber(int id)
+        {
+            orderData.TakeOrder(id);
+            return Redirect("/Worker/Index");
         }
         /// <summary>
         /// Возвращает страницу MakeReport,удаляет заявку из списка
@@ -39,14 +44,15 @@ namespace WebAppForDiplom.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult SendReport()
+        public IActionResult SendReport(int id)
         {
+            orderData.SendReadyOrder(id);
             return Redirect("~/Worker/Index");
         }
 
         public IActionResult MyReports()
         {
-            return View();
+            return View(orderData.GetReadyOrders(User.Identity.Name));
         }
 
 

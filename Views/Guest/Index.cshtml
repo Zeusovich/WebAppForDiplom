@@ -1,0 +1,17 @@
+﻿@model Order
+@{
+    ViewData["Title"] = "PreparationPage";
+}
+<html>
+    <a href="~/Home/Index">На главную</a>
+    <body>
+        <a href="~/Guest/GuestOrders">Мои заявки</a>
+        <form asp-controller ="Guest" asp-action="PreparationOfOrder" method="post" >
+            <div>
+                <label>Описание проблемы:</label>
+            <input asp-for="DescriptionOfProblem" /><br />             
+            </div>                
+            <input type="submit" value="Отправить" />
+        </form>
+</body>
+</html>

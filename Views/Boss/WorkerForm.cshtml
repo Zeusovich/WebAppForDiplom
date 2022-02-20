@@ -1,0 +1,22 @@
+﻿
+@{
+    ViewData["Title"] = "Send Order To Worker";
+}
+<title>Отправка заявки</title>
+<html>
+    <a href="~/Boss/Index">Назад</a>
+    <body>
+        <form method="post" action="~/Boss/SendOrderToWorker">
+        <label>Введите номер заявки</label>
+        <input type="number" name="id" /><br />
+        <label>Выберите сотрудника</label>
+        <select name="workerName">            
+            <option >@ViewBag.Worker1</option>
+            <option >@ViewBag.Worker2</option>
+            <option >@ViewBag.Worker3</option>
+        </select><br />
+        <input type="submit" value="Отправить" />
+        </form>
+    </body>
+</html>
+

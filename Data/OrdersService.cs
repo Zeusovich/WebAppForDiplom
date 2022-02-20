@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebAppForDiplom.Context;
@@ -15,27 +17,141 @@ namespace WebAppForDiplom.Data
         public OrdersService(DataContext context)
         {
             this._context = context;
-            
-            /*var order1 = new Order( "sdfsf");
-            var order2 = new Order( "aaaaa");
-            db.Orders.Add(order1);
-            db.Orders.Add(order2);
-            db.SaveChanges();*/
-
             data = _context.Orders.ToList();
         }
 
         public IEnumerable<Order> GetOrders()
         {
+            _context.SaveChanges(); // Посмотреть
              return data;
         }
 
-        public void AddOrder(string name)
+        public List<Order> GetValues()
         {
-             Order order = new Order(name);
+            var values = _context.Orders.Where(x => x.Status == "Прошло оценку клиентом+Прошло оценку начальником").ToList();
+            return values;
+        }
 
+
+        public void AddOrder(Order order)
+        {
              _context.Orders.Add(order);
              _context.SaveChanges();            
         }
+
+        public void AddWorkerName(int id, string workerName)
+        {
+            var orders = _context.Orders.Where(x => x.Id == id);
+            foreach(var order in orders)
+            if (order != null)
+            {
+                order.Status = "В ожидании";
+                order.WorkerName = workerName;
+                _context.Orders.Update(order);
+            }
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<Order> GetOrdersForWorker(string userName)
+        {
+            var ordersForWorker = _context.Orders.Where(x => x.WorkerName == userName&&
+            ((x.Status=="В ожидании")||(x.Status =="В процессе"))).ToList();
+            
+            return ordersForWorker;
+        }
+
+        public void TakeOrder(int id)
+        {
+            var orders = _context.Orders.Where(x => x.Id == id);
+            foreach (var order in orders)
+                if (order != null)
+                {
+                    order.Status = "В процессе";
+                    order.BeginOfWork = DateTime.Now;
+                    _context.Orders.Update(order);
+                }
+            _context.SaveChanges();
+        }
+
+        public void SendReadyOrder(int id)
+        {
+            var orders = _context.Orders.Where(x => x.Id == id);
+            foreach (var order in orders)
+                if (order != null)
+                {
+                    order.Status = "Готово";
+                    order.EndOfWork = DateTime.Now;
+                    _context.Orders.Update(order);
+                }
+            _context.SaveChanges();
+        }
+
+        public IEnumerable<Order> GetReadyOrders(string userName)
+        {
+            var readyOrders = _context.Orders.Where(x => x.WorkerName == userName && x.Status == "Готово").ToList();
+
+            return readyOrders;
+        }
+
+        public IEnumerable<Order> GetReadyOrders()
+        {
+            var readyOrders = _context.Orders.Where(x => x.Status == "Готово" || x.Status == "Прошло оценку клиентом").ToList();
+
+            return readyOrders;
+        }
+
+
+        public IEnumerable<Order> GetOrdersWithoutWorker()
+        {
+            var readyOrders = _context.Orders.Where(x => x.WorkerName == null).ToList();
+
+            return readyOrders;
+        }
+
+        public void BossRate(int id, int valueBeginOfWork, int valueEndOfWork)
+        {
+            var orders = _context.Orders.Where(x => x.Id == id);
+            foreach (var order in orders)
+            {
+                if (order != null && order.Status == "Готово")
+                {
+                    order.Status = "Прошло оценку начальником";
+                    order.ValueBeginOfWork = valueBeginOfWork;
+                    order.ValueEndOfWork = valueEndOfWork;
+                    _context.Orders.Update(order);
+                }
+                if (order != null && order.Status == "Прошло оценку клиентом")
+                {
+                    order.Status = order.Status + "+" + "Прошло оценку начальником";
+                    order.ValueBeginOfWork = valueBeginOfWork;
+                    order.ValueEndOfWork = valueEndOfWork;
+                    _context.Orders.Update(order);
+                }
+            }
+            _context.SaveChanges();
+        }
+
+        public void Feedback(int id, int feedback, int recommend)
+        {
+            var orders = _context.Orders.Where(x => x.Id == id);
+            foreach (var order in orders)
+            {
+                if (order != null && order.Status == "Готово")
+                {
+                    order.Status = "Прошло оценку клиентом";
+                    order.Feedback = feedback;
+                    order.Recommend = recommend;
+                    _context.Orders.Update(order);
+                }
+                if (order != null && order.Status == "Прошло оценку начальником")
+                {
+                    order.Status = "Прошло оценку клиентом" + "+" + order.Status;
+                    order.Feedback = feedback;
+                    order.Recommend = recommend;
+                    _context.Orders.Update(order);
+                }
+            }
+            _context.SaveChanges();
+        }        
     }
 }

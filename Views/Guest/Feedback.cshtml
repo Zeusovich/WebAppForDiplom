@@ -1,0 +1,25 @@
+﻿@model Order
+@{
+    ViewData["Title"] = "Feedback Page";
+}
+<html>
+<body>    
+    <div>
+        <h1>Оцените работу:</h1>        
+        <form asp-controller ="Guest" asp-action="SendFeedback" method="post" >
+            <div>
+                <label>Номер заявки</label>
+            <input asp-for="Id"/><br /> 
+                <label>Оцените работу сотрудника (0-5)</label>
+            <input asp-for="Feedback"/><br />             
+            </div>
+            <div>
+                <label>С какой вероятностью вы порекомендуете нас другим людям? (0-5)</label>
+            <input asp-for="Recommend"/><br />             
+            </div>  
+            <input type="submit" value="Отправить" />
+        </form>
+    </div>
+</body>
+</html>
+       

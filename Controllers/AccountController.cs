@@ -15,11 +15,13 @@ namespace WebAppForDiplom.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
+        private readonly DataContext _dataContext;
 
-        public AccountController(UserManager<User> userManager,SignInManager<User> signInManager)
+        public AccountController(UserManager<User> userManager,SignInManager<User> signInManager,DataContext dataContext)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _dataContext = dataContext;
         }
                 
         [AllowAnonymous]
@@ -35,7 +37,7 @@ namespace WebAppForDiplom.Controllers
             var user1 = new User
             {
                 UserName = "User1",
-                FirstName = "Danya"
+                FirstName = "Danya",
             };
 
             var result1 = _userManager.CreateAsync(user1, "123456789").GetAwaiter().GetResult();
@@ -76,12 +78,48 @@ namespace WebAppForDiplom.Controllers
             await HttpContext.SignInAsync("Cookie", claimPrincipal);*/
             
         }
-
         
         public async Task<IActionResult> LogoutAsync()
         {
             await _signInManager.SignOutAsync();
             return Redirect("/Home/Index");
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register(RegisterViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = new User { UserName = model.UserName,FirstName = model.UserName };
+                // добавляем пользователя
+                var result = await _userManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
+                    _userManager.AddClaimAsync(user, new Claim(ClaimTypes.Role, "Guest")).GetAwaiter().GetResult();
+                }
+
+                if (result.Succeeded)
+                {
+                    // установка куки
+                    await _signInManager.SignInAsync(user, false);
+                    return Redirect("/Home/Index");
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, "Пользователь не зарегистрирован");
+                    }
+                }
+            }
+            return View(model);
         }
     }    
 }

@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Threading.Tasks;
 using WebAppForDiplom.Interfaces;
 using WebAppForDiplom.Models;
 
 namespace WebAppForDiplom.Controllers
 {
-    public class PreparationController : Controller
+    public class GuestController : Controller
     {
         private readonly IOrderData orderData;
-        public PreparationController(IOrderData OrderData)
+        public GuestController(IOrderData OrderData)
         {
             this.orderData = OrderData;
         }
@@ -24,10 +26,13 @@ namespace WebAppForDiplom.Controllers
         /// <param name="Name"></param>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult PreparationOfOrder(string Name)
+        public IActionResult PreparationOfOrder(Order order)
         {
-            orderData.AddOrder(Name);
-            return Redirect("~/Home/Index");
+            order.ResponceTime = DateTime.Now;
+            order.Status = "Отправлена";
+            order.Name = User.Identity.Name;
+            orderData.AddOrder(order);
+            return Redirect("/Guest/Index");
         }
         /// <summary>
         /// возвращает view GuestOrders
@@ -35,7 +40,7 @@ namespace WebAppForDiplom.Controllers
         /// <returns></returns>
         public IActionResult GuestOrders()
         {
-            return View();
+            return View(orderData.GetOrders());
         }
 
         /// <summary>
@@ -52,9 +57,10 @@ namespace WebAppForDiplom.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public IActionResult SendFeedback()
+        public IActionResult SendFeedback(Order order)
         {
-            return Redirect("~/Preparation/Index");
+            orderData.Feedback(order.Id, order.Feedback, order.Recommend);
+            return Redirect("~/Guest/Index");
         }
     }
 }

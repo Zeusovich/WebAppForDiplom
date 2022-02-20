@@ -2,35 +2,30 @@
 @model List<Order>
 @{
     ViewData["Title"] = "HomePage";
-    Layout = "_Layout";
 }
 <html>    
     <body>
         <p>IsAuthenticated:@ViewBag.IsAuthenticated</p>  <p>Name:@ViewBag.Name</p>
         <a asp-controller="Account" asp-action="Logout">Log out</a>
     <div class= "panel panel-primary">
-        <a href="~/Preparation/Index">Оставить заявку</a>
-    <div class = "panel-heading">Список заявок</div>
-        <table class = "table table-striped">
-
-            @foreach (Order order in Model)
-            {
-                <tr>
-                    <th>@order.Id</th>
-                    <th>@order.Name</th>
-                </tr>
-            }
-        </table>
-</div>
-<div>
-    <h1>Отправить заявку</h1>
-        <form method="post" action="~/Home/SendOrder">
-            <label>Номер заявки</label>
-            <input type="text" name="Name" /><br />
-            <label>Имя сотрудника</label>
-            <input type="text" name="Name" /><br />
-            <input type="submit" value="Отправить" />
-        </form>
+       @if ( User.IsInRole("Guest")) 
+       {
+            <a asp-controller="Guest" asp-action="Index">Оставить заявку</a>
+       } 
+       @if ( User.IsInRole("Boss")) 
+       {
+            <a asp-controller="Boss" asp-action="Index">Просмотреть список заявок</a>
+       } 
+       @if ( User.IsInRole("Worker")) 
+       {
+            <a asp-controller="Worker" asp-action="Index">Мои заявки</a>
+       } 
+       @if ( User.IsInRole("Administrator")) 
+       {
+            <a asp-controller="Preparation" asp-action="Index">Оставить заявку</a>
+            <a asp-controller="Boss" asp-action="Index">Просмотреть список заявок</a>
+            <a asp-controller="Worker" asp-action="Index">Мои заявки</a>
+       }    
 </div>
 </body>
 </html>
