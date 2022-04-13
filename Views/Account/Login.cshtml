@@ -1,24 +1,54 @@
 ﻿@model LoginViewModel
-
-<h1>Login</h1>
-
-<a asp-controller=Account asp-action=Register>Registration</a>
-
-<form asp-controller ="Account" asp-action="Login" method="post" >
+@{ Layout = null; }
+<title>Вход</title>
+<form method="post" asp-controller="Account" asp-action="Login">
+    <h2>Добро пожаловать!</h2>
     <input hidden asp-for="ReturnUrl" />
+    <div asp-validation-summary="ModelOnly"></div>
     <div>
-        <label>Username</label>
+        <label asp-for="UserName">Имя пользователя:</label><br />
         <input asp-for="UserName" />
-        <span asp-validation-for ="UserName"></span>
-    </div>
+        <span asp-validation-for="UserName"></span>
+    </div>    
     <div>
-        <label>Password</label>
-        <input asp-for=Password />
-        <span asp-validation-for ="Password"></span>
+        <label asp-for="Password">Пароль:</label><br />
+        <input asp-for="Password" />
+        <span asp-validation-for="Password"></span>
     </div>
-    
-    <p>
-        <button type="submit">Log in</button>
-    </p>
-    
+    <div >
+        <input class="buttonSubmit" type="submit" value="Войти" />
+    </div>
+    <br />
+    <a asp-controller=Account asp-action=Register>Регистрация</a>
 </form>
+
+<style>
+.buttonSubmit{
+    width:120px;
+    background-color:#2f6634;
+    left: 60px;
+    margin-top:5px;
+    margin-left:20px;
+}
+h2{
+    margin-top:-20px;
+    left: 60px;
+}
+a {
+    color:black;
+}
+form {
+      width: 220px;
+      margin: 0 auto;
+      padding: 50px;
+      background: #4b9c53;
+      position: fixed; top: 50%; left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      border-radius: 10px;
+}
+body {
+ background-color: #bbbbbb;
+}
+</style>

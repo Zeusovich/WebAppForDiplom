@@ -1,41 +1,112 @@
 ﻿@using WebAppForDiplom.Models
 @model List<Order>
 @{
-    ViewData["Title"] = "BossPage";
+    ViewData["Title"] = "Страница начальника";
 }
 <html>
-    <a href="~/Home/Index">На главную</a>
+    <nav class="one">
+          <ul>
+            <li><a asp-controller="Home" asp-action="Index">На главную</a></li>
+            <li>
+               <a href="~/Boss/GetReadyReports">Готовые отчеты</a>
+            </li>
+            <li>
+               <a href="~/Boss/GetResults">Результаты</a>
+            </li>
+            <li><a asp-controller="Account" asp-action="Logout">Выход</a></li>            
+          </ul>
+    </nav>
     <body>
-    <div class= "panel panel-primary">
-        <a href="~/Boss/GetReadyReports">Готовые отчеты</a>
-        <a href="~/Boss/GetResults">Результаты</a>
-    <div class = "panel-heading">Список заявок</div>
-        <table class = "table table-striped">
-            <tr>
-                    <th>Номер заявки</th>
-                    <th>Имя отправителя</th>
-                    <th>Описание</th>
-                    <th>Статус</th>
-                    <th>Время отправки</th>
-                    <th>Имя сотрудника</th>
-                </tr>
-            @foreach (Order order in Model)
-            {
+        <h2>Список заявок:</h2>
+        <div class= "panel panel-primary">        
+        <div class = "panel-heading"></div>
+            <table class = "table table-striped">
                 <tr>
-                    <th>@order.Id</th>
-                    <th>@order.Name</th>
-                    <th>@order.DescriptionOfProblem</th>
-                    <th>@order.Status</th>
-                    <th>@order.ResponceTime</th>
-                    <th>@order.WorkerName</th>                    
-                </tr>
-            }
-        </table>
-</div>
-<div>
-    <form method="post" action="~/Boss/WorkerForm">
-                <input type="submit" value="Отправить заявку" />
-    </form>
-</div>
+                        <th>Номер заявки</th>
+                        <th>Имя отправителя</th>
+                        <th>Описание</th>
+                        <th>Статус</th>
+                        <th>Время отправки</th>
+                        <th>Имя сотрудника</th>
+                    </tr>
+                @foreach (Order order in Model)
+                {
+                    <tr>
+                        <th>@order.Id</th>
+                        <th>@order.Name</th>
+                        <th>@order.DescriptionOfProblem</th>
+                        <th>@order.Status</th>
+                        <th>@order.ResponceTime</th>
+                        <th>@order.WorkerName</th>                    
+                    </tr>
+                }
+            </table>
+    </div>
+    <div>
+        <form method="post" action="~/Boss/WorkerForm">
+             <input class="buttonSubmit" type="submit" value="Отправить" />
+        </form>
+    </div>
 </body>
 </html>
+<style>
+    textarea{
+        width: 300px;
+        height:100px;
+    }
+    .orderForm {
+      width: 400px;
+      margin: 0 auto;
+      padding: 50px;
+      background: #4b9c53;
+      position: fixed; top: 30%; left: 20%;
+      -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      border-radius: 10px;
+    }   
+    .buttonSubmit{
+    width:120px;
+    background-color:#2f6634;
+    left: 60px;
+    margin-top:5px;
+    margin-left:20px;
+    }
+    body {margin:0;}
+    h2 {
+      font-family: monospace;
+      color: #606060;
+    }
+    ul {
+      list-style: none; 
+      margin: 0 auto;
+    }
+    a {
+      text-decoration: none;
+      font-family: 'Lora', serif;
+      transition: .5s linear;
+    }
+    i {
+      margin-right: 10px;
+    }
+    nav {
+      display: block;
+      width: 100%;
+      margin: 0 auto 30px;
+      color:#2f6634;
+    }
+    .one ul {
+      padding: 1em 0;
+      background: #2f6634;
+    }
+    .one a {
+      padding: 1em;
+      background: rgba(177, 152, 145, .3);
+      border-right: 1px solid #b19891;
+      color: black;
+    }
+    .one a:hover {background: #b19891;}
+    .one li {
+      display: inline;
+    }
+</style>

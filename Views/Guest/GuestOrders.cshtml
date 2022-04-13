@@ -1,12 +1,24 @@
 ﻿@model List<Order>
 @{
-    ViewData["Title"] = "GuestOrdersPage";
+    ViewData["Title"] = "Мои заявки";
 }
 <html>
-    <body>
-        <a href="~/Guest/Index">Назад</a>
+    <nav class="one">
+          <ul>
+            <li>
+                <a asp-controller="Home" asp-action="Index">На главную</a>
+            </li>
+            <li>
+               <a href="~/Guest/Index">Назад</a>
+            </li>
+            <li>
+                <a asp-controller="Account" asp-action="Logout">Выход</a>
+            </li>            
+          </ul>
+        </nav>
+    <body>        
         <h1> Мои заявки:</h1>
-         <div class = "panel-heading">Список заявок</div>
+         <div class = "panel-heading"></div>
         <table class = "table table-striped">
             <tr>
                     <th>Номер заявки</th>
@@ -14,7 +26,7 @@
                     <th>Описание</th>
                     <th>Статус</th>
                     <th>Время отправки</th>
-                </tr>
+            </tr>
             @foreach (Order order in Model)
             {
                 <tr>
@@ -27,7 +39,7 @@
                 <form method="post" action="~/Guest/Feedback">
                     @if ((order.Status == "Готово")||(order.Status == "Прошло оценку начальником"))
                     {
-                       <th><input type="submit" value="Оценить"></th>
+                       <th><input class="buttonSubmit" type="submit" value="Оценить"></th>
                     }
                     </form>
                    </tr>
@@ -35,3 +47,50 @@
         </table>
     </body>
 </html>
+
+<style>
+    .buttonSubmit{
+    width:120px;
+    background-color:#2f6634;
+    left: 60px;
+    margin-top:5px;
+    margin-left:20px;
+    }
+    body {margin:0;}
+    h2 {
+      font-family: monospace;
+      color: #606060;
+    }
+    ul {
+      list-style: none; 
+      margin: 0 auto;
+    }
+    a {
+      text-decoration: none;
+      font-family: 'Lora', serif;
+      transition: .5s linear;
+    }
+    i {
+      margin-right: 10px;
+    }
+    nav {
+      display: block;
+      width: 100%;
+      margin: 0 auto 30px;
+      color:#2f6634;
+    }
+    .one ul {
+      padding: 1em 0;
+      background: #2f6634;
+    }
+    .one a {
+      padding: 1em;
+      background: rgba(177, 152, 145, .3);
+      border-right: 1px solid #b19891;
+      color: black;
+    }
+    .one a:hover {background: #b19891;}
+    .one li {
+      display: inline;
+    }
+</style>

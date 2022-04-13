@@ -1,22 +1,93 @@
 ﻿
 @{
-    ViewData["Title"] = "Send Order To Worker";
+    ViewData["Title"] = "Отправить заявку";
 }
 <title>Отправка заявки</title>
 <html>
-    <a href="~/Boss/Index">Назад</a>
+    <nav class="one">
+          <ul>
+            <li><a asp-controller="Home" asp-action="Index">На главную</a></li>
+            <li>
+               <a href="~/Boss/Index">Назад</a>
+            </li>            
+            <li><a asp-controller="Account" asp-action="Logout">Выход</a></li>            
+          </ul>
+    </nav>
     <body>
-        <form method="post" action="~/Boss/SendOrderToWorker">
-        <label>Введите номер заявки</label>
-        <input type="number" name="id" /><br />
-        <label>Выберите сотрудника</label>
-        <select name="workerName">            
-            <option >@ViewBag.Worker1</option>
-            <option >@ViewBag.Worker2</option>
-            <option >@ViewBag.Worker3</option>
-        </select><br />
-        <input type="submit" value="Отправить" />
+            <h2>Подтвердите отправку:</h2>
+            <form class="orderForm" asp-controller ="Boss" asp-action="SendOrderToWorker" method="post" >
+                <label>Введите номер заявки</label>
+                <input type="number" name="id" /><br />
+                <label>Выберите сотрудника</label><br/>
+                <select name="workerName">            
+                    <option >@ViewBag.Worker1</option>
+                    <option >@ViewBag.Worker2</option>
+                    <option >@ViewBag.Worker3</option>
+                </select><br />
+                <input class="buttonSubmit" type="submit" value="Отправить" />
         </form>
-    </body>
+    </body>    
 </html>
+
+<style>
+    textarea{
+        width: 300px;
+        height:100px;
+    }
+    .orderForm {
+      width: 320px;
+      margin: 0 auto;
+      padding: 50px;
+      background: #4b9c53;
+      position: fixed; top: 40%; left: 20%;
+      -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      border-radius: 10px;
+    }   
+    .buttonSubmit{
+    width:120px;
+    background-color:#2f6634;
+    left: 60px;
+    margin-top:10px;
+    margin-left:20px;
+    }
+    body {margin:0;}
+    h2 {
+      font-family: monospace;
+      color: #606060;
+    }
+    ul {
+      list-style: none; 
+      margin: 0 auto;
+    }
+    a {
+      text-decoration: none;
+      font-family: 'Lora', serif;
+      transition: .5s linear;
+    }
+    i {
+      margin-right: 10px;
+    }
+    nav {
+      display: block;
+      width: 100%;
+      margin: 0 auto 30px;
+      color:#2f6634;
+    }
+    .one ul {
+      padding: 1em 0;
+      background: #2f6634;
+    }
+    .one a {
+      padding: 1em;
+      background: rgba(177, 152, 145, .3);
+      border-right: 1px solid #b19891;
+      color: black;
+    }
+    .one a:hover {background: #b19891;}
+    .one li {
+      display: inline;
+    }
+</style>
 

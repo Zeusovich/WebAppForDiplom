@@ -1,24 +1,53 @@
 ﻿@model RegisterViewModel
-
-<h2>Регистрация нового пользователя</h2>
+@{ Layout = null; }
+<title>Регистрация</title>
 <form method="post" asp-controller="Account" asp-action="Register">
+    <h2>Регистрация</h2>
     <div asp-validation-summary="ModelOnly"></div>
     <div>
-        <label asp-for="UserName"></label><br />
+        <label asp-for="UserName">Имя пользователя:</label><br />
         <input asp-for="UserName" />
         <span asp-validation-for="UserName"></span>
     </div>    
     <div>
-        <label asp-for="Password"></label><br />
+        <label asp-for="Password">Пароль:</label><br />
         <input asp-for="Password" />
         <span asp-validation-for="Password"></span>
     </div>
     <div>
-        <label asp-for="PasswordConfirm"></label><br />
+        <label asp-for="PasswordConfirm">Подтвердите пароль:</label><br />
         <input asp-for="PasswordConfirm" />
         <span asp-validation-for="PasswordConfirm"></span>
     </div>
     <div>
-        <input type="submit" value="Регистрация" />
+        <input class="buttonSubmit" type="submit" value="Регистрация" />
     </div>
 </form>
+
+<style>
+.buttonSubmit{
+    width:120px;
+    background-color:#2f6634;
+    left: 60px;
+    margin-top:5px;
+    margin-left:20px;
+}
+h2{
+    margin-top:-20px;
+    left: 80px;
+}
+form {
+      width: 200px;
+      margin: 0 auto;
+      padding: 50px;
+      background: #4b9c53;
+      position: fixed; top: 50%; left: 50%;
+      -webkit-transform: translate(-50%, -50%);
+      -ms-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      border-radius: 10px;
+}
+body {
+ background-color: #bbbbbb;
+}
+</style>

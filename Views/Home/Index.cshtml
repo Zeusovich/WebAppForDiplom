@@ -1,32 +1,99 @@
 ﻿@using WebAppForDiplom.Models
 @model List<Order>
 @{
-    ViewData["Title"] = "HomePage";
+    ViewData["Title"] = "Главная";
 }
 <html>    
-    <body>
-        <p>IsAuthenticated:@ViewBag.IsAuthenticated</p>  <p>Name:@ViewBag.Name</p>
-        <a asp-controller="Account" asp-action="Logout">Log out</a>
-    <div class= "panel panel-primary">
-       @if ( User.IsInRole("Guest")) 
-       {
-            <a asp-controller="Guest" asp-action="Index">Оставить заявку</a>
-       } 
-       @if ( User.IsInRole("Boss")) 
-       {
-            <a asp-controller="Boss" asp-action="Index">Просмотреть список заявок</a>
-       } 
-       @if ( User.IsInRole("Worker")) 
-       {
-            <a asp-controller="Worker" asp-action="Index">Мои заявки</a>
-       } 
-       @if ( User.IsInRole("Administrator")) 
-       {
-            <a asp-controller="Preparation" asp-action="Index">Оставить заявку</a>
-            <a asp-controller="Boss" asp-action="Index">Просмотреть список заявок</a>
-            <a asp-controller="Worker" asp-action="Index">Мои заявки</a>
-       }    
-</div>
-</body>
+        <nav class="one">
+          <ul>
+            <li>
+                @if ( User.IsInRole("Guest")) 
+               {
+                    <a asp-controller="Guest" asp-action="Index">Оставить заявку</a>
+               } 
+               @if ( User.IsInRole("Boss")) 
+               {
+                    <a asp-controller="Boss" asp-action="Index">Просмотреть список заявок</a>
+               } 
+               @if ( User.IsInRole("Worker")) 
+               {
+                    <a asp-controller="Worker" asp-action="Index">Мои заявки</a>
+               } 
+               @if ( User.IsInRole("Administrator")) 
+               {
+                    <a asp-controller="Preparation" asp-action="Index">Оставить заявку</a>
+                    <a asp-controller="Boss" asp-action="Index">Просмотреть список заявок</a>
+                    <a asp-controller="Worker" asp-action="Index">Мои заявки</a>
+               }  
+            </li>
+            <li><a asp-controller="Account" asp-action="Logout">Выход</a></li>            
+          </ul>
+        </nav>
+
+        <body>              
+            <h1>Добро пожаловать!</h1>
+            <div>
+                Данное приложение создано для оптимизации работы оценивания персонала.
+                <div> 
+                   Если вы вошли как гость, перед вами открываются следующие возможности:<br/>
+                   - Вы можете оставить заявку;<br/>
+                   - После составления заявки можно отслеживать статус ее выполнения;<br/>
+                   - После выполнения заявки вы можете оценить работу сотрудника;
+                </div>
+                <div> 
+                   Если вы вошли как сотрудник, перед вами открываются следующие возможности:<br/>
+                   - Вы можете просмотреть отправленные на исполнение заявки;<br/>
+                   - Обозначить начало выполнения заявки;<br/>
+                   - После выполнения заявки вы можете составить отчет и отправить его руководителю;
+                </div>
+                <div> 
+                   Если вы вошли как начальник, перед вами открываются следующие возможности:<br/>
+                   - Вы можете просмотреть список заявок;<br/>
+                   - После просмотра вы можете отправить заявку выбранному сотруднику;<br/>
+                   - Есть возможность просмотреть статусы заявок;<br/>
+                   - После выполнения сотрудником заявки вы можете оценить его работу;<br/>
+                   - Когда заявка получит оценку со стороны начальника и гостя, вы можете просмотреть оценку за проделанную работу.<br/>
+                </div>
+            </div>
+        </body>
 </html>
+<style>
+    body {margin:0;}
+    h2 {
+      font-family: monospace;
+      color: #606060;
+    }
+    ul {
+      list-style: none; 
+      margin: 0 auto;
+    }
+    a {
+      text-decoration: none;
+      font-family: 'Lora', serif;
+      transition: .5s linear;
+    }
+    i {
+      margin-right: 10px;
+    }
+    nav {
+      display: block;
+      width: 100%;
+      margin: 0 auto 30px;
+      color:#2f6634;
+    }
+    .one ul {
+      padding: 1em 0;
+      background: #2f6634;
+    }
+    .one a {
+      padding: 1em;
+      background: rgba(177, 152, 145, .3);
+      border-right: 1px solid #b19891;
+      color: black;
+    }
+    .one a:hover {background: #b19891;}
+    .one li {
+      display: inline;
+    }
+</style>
 
